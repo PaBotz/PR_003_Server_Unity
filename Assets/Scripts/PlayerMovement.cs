@@ -8,6 +8,18 @@ public class PlayerMovement : NetworkBehaviour
     float moverHorizontal, moverVertical;
     float moverSpeed;
     Vector2 movimiento;
+
+    
+    [SerializeField]
+    NetworkVariable<int> health = new NetworkVariable<int>(
+        3,
+        NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Owner
+    );
+
+
+
+
     void Start()
     {
         moverSpeed = 10;
@@ -17,7 +29,7 @@ public class PlayerMovement : NetworkBehaviour
    
     void Update() 
     {
-        if (!IsOwner) return; //Si no es el dueño/pcServer return
+        if (!IsOwner) return; //Si no es el duenyo/pcServer return
         moveFuncion();
       
     }
@@ -25,11 +37,19 @@ public class PlayerMovement : NetworkBehaviour
     void moveFuncion()
     {
         //Movimiento Player
-        moverHorizontal = Input.GetAxis("Horizontal");
-        moverVertical = Input.GetAxis("Vertical");
+        moverHorizontal = Input.GetAxisRaw("Horizontal");
+        moverVertical = Input.GetAxisRaw("Vertical");
 
-        movimiento = new Vector2(moverHorizontal, moverVertical).normalized;
-        rb.linearVelocity = movimiento * moverSpeed;
+        movimiento = new Vector2(moverHorizontal, moverVertical).normalized; //Direccion.Normalize() (En profe script)
+        rb.linearVelocity = movimiento * moverSpeed; 
     }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        health.Value -= 1;
+    }
+
+
+
 
 }
