@@ -24,6 +24,7 @@ public class scr_Boton : MonoBehaviour
    public void desconectar()
    {
     NetworkManager.Singleton.Shutdown();
+    
 
    }
 
