@@ -199,7 +199,7 @@ GameObject:
   - component: {fileID: 1243635184016916906}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -316,7 +316,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   ShowTopMostFoldoutHeaderGroup: 1
-  vida: 3
+  health:
+    m_InternalValue: 3
 --- !u!50 &6606049823826624800
 Rigidbody2D:
   serializedVersion: 5

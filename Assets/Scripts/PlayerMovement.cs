@@ -16,8 +16,16 @@ public class PlayerMovement : NetworkBehaviour
         NetworkVariableReadPermission.Everyone,
         NetworkVariableWritePermission.Owner
     );
+        [SerializeField]
+    NetworkVariable<int> puntos = new NetworkVariable<int>(
+        0,
+        NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Owner
+    );
 
+    [SerializeField] GameObject prefabProyectile;
 
+   
 
 
     void Start()
@@ -42,14 +50,38 @@ public class PlayerMovement : NetworkBehaviour
 
         movimiento = new Vector2(moverHorizontal, moverVertical).normalized; //Direccion.Normalize() (En profe script)
         rb.linearVelocity = movimiento * moverSpeed; 
+
+        //Lanzar Proyectile
+
+    
+        if(Input.GetKeyDown(KeyCode.Space))
+        GameObject nuevoProyectile = Instantiate(prefabProyectile);
+        nuevoProyectile.transform.position = transform.position;
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        health.Value -= 1;
+        if (!IsOwner) return;
+        if(collision.gameObject.CompareTag("moneda"))
+
+        puntos.Value += 1;
+    
+        
+        NetworkObject no = collision.gameObject.GetComponent<NetworkObject>();
+        no.Despawn(); //Desconectar la moneda*/
+
+        eliminarMonedaServerRpc(no.NetworkObjectId);
+
+       
     }
 
-
+    [ServerRpc]
+    void eliminarMonedaServerRpc(ulong noID) 
+    //void eliminarMonedaServerRpc(NetworkObject no)
+    {
+        NetworkObject no = NetworkManager.Singleton.SpawnManager.SpawnedObjects [noID];
+        no.Despawn();//Desconecta y elimina la moneda
+    }
 
 
 }
