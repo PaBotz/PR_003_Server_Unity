@@ -8,9 +8,8 @@ public class scr_Proyectile : MonoBehaviour
     {
         
     }
-    public override void  onNerworkSpawn(){
-
-    
+    public override void  onNerworkSpawn()
+    {
     base.OnNetworkSpawn();
     gameObject.GetComponent<Rigidbody2D>().linearVelocity = Vector2.up;
     }

@@ -53,10 +53,12 @@ public class PlayerMovement : NetworkBehaviour
 
         //Lanzar Proyectile
 
-    
         if(Input.GetKeyDown(KeyCode.Space))
         GameObject nuevoProyectile = Instantiate(prefabProyectile);
         nuevoProyectile.transform.position = transform.position;
+        nuevoProyectile.GetComponent<NetworkObject>();
+        no.spawn();
+        
     }
 
     void OnCollisionEnter2D(Collision2D collision)
