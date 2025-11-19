@@ -1,6 +1,7 @@
 using UnityEngine;
+using Unity.Netcode; 
 
-public class scr_Proyectile : MonoBehaviour
+public class scr_Proyectile : NetworkBehaviour
 {
 
 
@@ -8,7 +9,8 @@ public class scr_Proyectile : MonoBehaviour
     {
         
     }
-    public override void  onNerworkSpawn()
+
+    public override void  OnNetworkSpawn()
     {
     base.OnNetworkSpawn();
     gameObject.GetComponent<Rigidbody2D>().linearVelocity = Vector2.up;
